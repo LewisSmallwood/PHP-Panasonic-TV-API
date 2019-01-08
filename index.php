@@ -1,21 +1,9 @@
 <?php
-require_once 'PanasonicTV/Controller.php';
-require_once 'PanasonicTV/Keys.php';
+    require_once 'API/CommandHandler.php';
 
-const TV_IP_ADDRESS = "192.168.0.161";
+    header("Content-Type: application/json;");
 
-$controller = new Controller(TV_IP_ADDRESS);
+    $command = CommandHandler::getCommand();
+    $response = $command->execute();
 
-header("Content-Type: application/json;");
-
-$volume = $controller->getVolume();
-$isMuted = $controller->getIsMuted();
-$isPowerOn = $controller->getIsPowerOn();
-
-$output = array(
-    "isPowerOn" => $isPowerOn,
-    "volume" => $volume,
-    "muted" => $isMuted
-);
-
-echo(json_encode($output, JSON_PRETTY_PRINT));
+    echo(json_encode($response, JSON_PRETTY_PRINT));
